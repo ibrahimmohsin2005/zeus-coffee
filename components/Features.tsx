@@ -8,19 +8,19 @@ export default function Features() {
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8">
                 {[
                     {
-                        title: "24-Hour Micro-Steep",
-                        desc: "Extracted slowly at 3°C for zero bitterness and maximum depth.",
-                        icon: "I."
+                        title: "Velvet Smoothness",
+                        desc: "Time is our secret ingredient. Our 24-hour micro-steep removes bitterness, leaving only a rich, chocolatey finish that feels like silk.",
+                        icon: "01"
                     },
                     {
-                        title: "Zero-Oxidation Canning",
-                        desc: "Sealed within seconds of brewing. Freshness guaranteed.",
-                        icon: "II."
+                        title: "Locked-In Freshness",
+                        desc: "Brewed and canned in seconds. We capture the peak flavor profile immediately, sealing in the nuance before oxygen can steal it.",
+                        icon: "02"
                     },
                     {
-                        title: "Single-Origin Ethiopian",
-                        desc: "Sourced directly from Yirgacheffe. Floral, bright, and bold.",
-                        icon: "III."
+                        title: "The Champagne of Coffee",
+                        desc: "Sourced exclusively from Yirgacheffe, Ethiopia. Floral, bright, and complex. This isn't just caffeine; it's a ceremony.",
+                        icon: "03"
                     }
                 ].map((feature, i) => (
                     <motion.div

@@ -10,17 +10,22 @@ export default function CTA() {
                     initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.8 }}
-                    className="text-6xl md:text-9xl font-bold tracking-tighter text-espresso mb-12"
+                    className="text-5xl md:text-8xl font-bold tracking-tighter-custom text-espresso mb-8 leading-[0.9]"
                 >
-                    READY TO <br className="hidden md:block" /> WAKE UP?
+                    DON&apos;T JUST WAKE UP.<br />
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-espresso to-zinc-600">ASCEND.</span>
                 </motion.h2>
+
+                <p className="text-espresso/60 text-lg md:text-xl font-mono mb-12 max-w-md mx-auto">
+                    Join the 1% who refuse to start their day with mediocrity.
+                </p>
 
                 <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="bg-espresso text-white px-12 py-6 text-xl md:text-2xl font-bold tracking-wider uppercase hover:bg-condensation hover:text-espresso transition-colors duration-300 w-full md:w-auto"
+                    className="bg-espresso text-white px-12 py-6 text-xl md:text-2xl font-bold tracking-wider uppercase hover:bg-condensation hover:text-espresso transition-colors duration-300 w-full md:w-auto shadow-2xl"
                 >
-                    Order Trial Pack - $29
+                    START YOUR RITUAL - $29
                 </motion.button>
 
                 <div className="mt-16 flex space-x-8 text-espresso/60 text-xs font-mono uppercase">

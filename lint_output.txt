@@ -1,0 +1,42 @@
+
+> zeus-coffee@0.1.0 lint
+> eslint
+
+
+/Users/ibrahimmohsin/Documents/coffee website/zeus-coffee/components/CoffeeCanvas.tsx
+   28:61  warning  'reject' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+   52:9   error    Error: Cannot access variable before it is declared
+
+`renderFrame` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+/Users/ibrahimmohsin/Documents/coffee website/zeus-coffee/components/CoffeeCanvas.tsx:52:9
+  50 |     // Update canvas on scroll
+  51 |     useMotionValueEvent(frameIndex, "change", (latest) => {
+> 52 |         renderFrame(Math.round(latest));
+     |         ^^^^^^^^^^^ `renderFrame` accessed before it is declared
+  53 |     });
+  54 |
+  55 |     const renderFrame = (index: number) => {
+
+/Users/ibrahimmohsin/Documents/coffee website/zeus-coffee/components/CoffeeCanvas.tsx:55:5
+  53 |     });
+  54 |
+> 55 |     const renderFrame = (index: number) => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 56 |         const canvas = canvasRef.current;
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 57 |         if (!canvas || !isLoaded || images.length === 0) return;
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 84 |         ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 85 |     };
+     | ^^^^^^^ `renderFrame` is declared here
+  86 |
+  87 |     // Resize handler
+  88 |     useEffect(() => {  react-hooks/immutability
+  109:8   warning  React Hook useEffect has a missing dependency: 'renderFrame'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         react-hooks/exhaustive-deps
+  116:8   warning  React Hook useEffect has a missing dependency: 'renderFrame'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         react-hooks/exhaustive-deps
+
+✖ 4 problems (1 error, 3 warnings)
+

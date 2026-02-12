@@ -27,27 +27,27 @@ export default function HeroCanvas() {
     // Map SMOOTH scroll to frame index
     const frameIndex = useTransform(smoothProgress, [0, 1], [0, totalFrames - 1]);
 
-    // Text Animations - Retimed for "Immediate" ZEUS Impact
-    // Text Animations - The "Aggressive" Split (08/08/84)
-    // User wants Zeus EARLIER.
+    // Text Animations - Retimed for "Perfect Middle Ground"
+    // User wants "AWAKEN" and "ELEVATE" to have more time, but "ZEUS" to still appear relatively fast.
+    // Previous: Zeus at 16%. New: Zeus at 20%.
 
-    // Stage 1: "AWAKEN" (0% -> 8%)
-    const opacityText1 = useTransform(scrollYProgress, [0.0, 0.02, 0.06, 0.08], [0, 1, 1, 0]);
-    const scaleText1 = useTransform(scrollYProgress, [0.0, 0.08], [0.9, 1.05]);
+    // Stage 1: "AWAKEN" (0% -> 10%) - +25% duration
+    const opacityText1 = useTransform(scrollYProgress, [0.0, 0.02, 0.08, 0.10], [0, 1, 1, 0]);
+    const scaleText1 = useTransform(scrollYProgress, [0.0, 0.10], [0.9, 1.05]);
 
-    // Stage 2: "ELEVATE" (8% -> 16%)
-    const opacityText2 = useTransform(scrollYProgress, [0.08, 0.10, 0.14, 0.16], [0, 1, 1, 0]);
-    const scaleText2 = useTransform(scrollYProgress, [0.08, 0.16], [0.9, 1.05]);
+    // Stage 2: "ELEVATE" (10% -> 20%) - +25% duration
+    const opacityText2 = useTransform(scrollYProgress, [0.10, 0.12, 0.18, 0.20], [0, 1, 1, 0]);
+    const scaleText2 = useTransform(scrollYProgress, [0.10, 0.20], [0.9, 1.05]);
 
-    // Stage 3: "ZEUS" (16% -> End)
-    // Starts even earlier to give it maximum "pop" time
-    const opacityText3 = useTransform(scrollYProgress, [0.16, 0.25, 1], [0, 1, 1]);
-    const scaleText3 = useTransform(scrollYProgress, [0.16, 1], [0.95, 1.05]);
+    // Stage 3: "ZEUS" (20% -> End)
+    // Starts at 20%, pops in faster (5% duration vs previous 10%)
+    const opacityText3 = useTransform(scrollYProgress, [0.20, 0.25, 1], [0, 1, 1]);
+    const scaleText3 = useTransform(scrollYProgress, [0.20, 1], [0.95, 1.05]);
 
     // Subtitle: "The Science..."
-    // Accelerate fade-in to feel "immediate" after ZEUS
-    const opacitySubtitle = useTransform(scrollYProgress, [0.18, 0.24, 1], [0, 1, 1]);
-    const scaleSubtitle = useTransform(scrollYProgress, [0.18, 1], [0.95, 1.05]);
+    // Slightly delayed to 22% so it doesn't clash with Zeus entrance
+    const opacitySubtitle = useTransform(scrollYProgress, [0.22, 0.28, 1], [0, 1, 1]);
+    const scaleSubtitle = useTransform(scrollYProgress, [0.22, 1], [0.95, 1.05]);
 
     // Preload Images - Parallel & Non-Blocking
     useEffect(() => {

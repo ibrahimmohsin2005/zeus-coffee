@@ -100,11 +100,12 @@ export default function HeroCanvas() {
             // If we still don't have an image (e.g. frame 0 failed?), we can't draw anything yet
             if (!img) return;
 
-            // Responsive "Contain" Logic
+            // Responsive "Cover" Logic (fills screen on mobile)
             const canvasWidth = canvas.width = window.innerWidth;
             const canvasHeight = canvas.height = window.innerHeight;
 
-            const scale = Math.min(canvasWidth / img.width, canvasHeight / img.height);
+            // Use Math.max for "cover" effect (stops letterboxing on mobile)
+            const scale = Math.max(canvasWidth / img.width, canvasHeight / img.height);
             const x = (canvasWidth / 2) - (img.width / 2) * scale;
             const y = (canvasHeight / 2) - (img.height / 2) * scale;
 
@@ -132,14 +133,14 @@ export default function HeroCanvas() {
                         Brewing Assets...
                     </div>
                 )}
-                <canvas ref={canvasRef} className="block w-full h-full object-contain" />
+                <canvas ref={canvasRef} className="block w-full h-full object-cover" />
 
                 {/* Stage 1 Text: AWAKEN */}
                 <motion.div
                     style={{ opacity: opacityText1, scale: scaleText1 }}
                     className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10"
                 >
-                    <h1 className="text-[15vw] sm:text-[12rem] font-bold tracking-tighter-custom leading-none text-white mix-blend-overlay">
+                    <h1 className="text-[18vw] sm:text-[12rem] font-bold tracking-tighter-custom leading-none text-white mix-blend-overlay">
                         AWAKEN.
                     </h1>
                 </motion.div>
@@ -149,18 +150,17 @@ export default function HeroCanvas() {
                     style={{ opacity: opacityText2, scale: scaleText2 }}
                     className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10"
                 >
-                    <h1 className="text-[15vw] sm:text-[12rem] font-bold tracking-tighter-custom leading-none text-white mix-blend-overlay">
+                    <h1 className="text-[18vw] sm:text-[12rem] font-bold tracking-tighter-custom leading-none text-white mix-blend-overlay">
                         ELEVATE.
                     </h1>
                 </motion.div>
 
                 {/* Stage 3 Text: ZEUS */}
-                {/* Stage 3 Text: ZEUS */}
                 <motion.div
                     style={{ opacity: opacityText3, scale: scaleText3 }}
                     className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10"
                 >
-                    <h1 className="text-[15vw] sm:text-[12rem] font-bold tracking-tighter-custom leading-none text-white mix-blend-overlay">
+                    <h1 className="text-[18vw] sm:text-[12rem] font-bold tracking-tighter-custom leading-none text-white mix-blend-overlay">
                         ZEUS.
                     </h1>
                 </motion.div>
@@ -168,9 +168,9 @@ export default function HeroCanvas() {
                 {/* Subtitle: The Science... */}
                 <motion.div
                     style={{ opacity: opacitySubtitle, scale: scaleSubtitle }}
-                    className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 pt-[20vw] sm:pt-[16rem]"
+                    className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 pt-[30vh] sm:pt-[16rem]"
                 >
-                    <p className="text-sm sm:text-lg tracking-[0.2em] text-white/80 uppercase font-medium">
+                    <p className="text-xs sm:text-lg tracking-[0.2em] text-white/80 uppercase font-medium text-center px-4">
                         The science of the perfect cold brew
                     </p>
                 </motion.div>

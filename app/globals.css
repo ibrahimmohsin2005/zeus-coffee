@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --font-inter: "Inter", sans-serif;
+  --font-inter: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-geist-mono: "Geist Mono", monospace;
 
   --color-background: var(--background);
@@ -27,6 +27,8 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
   overflow-x: hidden;
+  cursor: none;
+  /* Hide default cursor for custom cursor */
 }
 
 /* Custom Scrollbar */
@@ -47,7 +49,27 @@ body {
   background: var(--color-condensation);
 }
 
-/* Utility for tracking */
 .tracking-tighter-custom {
   letter-spacing: -0.05em;
+}
+
+/* Marquee Animation */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
 }

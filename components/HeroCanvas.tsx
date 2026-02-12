@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useEffect, useState } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 
 export default function HeroCanvas() {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -10,30 +10,44 @@ export default function HeroCanvas() {
     const [isLoaded, setIsLoaded] = useState(false);
     const totalFrames = 240; // Updated to 240 frames
 
-    // Track scroll progress of the 300vh container
+    // Smooth Scroll Physics ("600% Smoother")
+    // We dampen the scroll progress to create a "heavy" fluid feel for the frames
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start start", "end end"]
     });
 
-    // Map scroll (0-1) to frame index (0-239)
-    const frameIndex = useTransform(scrollYProgress, [0, 1], [0, totalFrames - 1]);
+    // Create a smoothed version specifically for the canvas/video frames
+    // Create a smoothed version specifically for the canvas/video frames
+    const smoothProgress = useSpring(scrollYProgress, { mass: 0.5, stiffness: 150, damping: 30 });
 
-    // Text Animations - Three distinct words appearing at different stages
-    // Stage 1: "AWAKEN" (Start of pour)
-    // Shifted earlier: 2% -> 20%
-    const opacityText1 = useTransform(scrollYProgress, [0.02, 0.1, 0.15, 0.2], [0, 1, 1, 0]);
-    const scaleText1 = useTransform(scrollYProgress, [0.02, 0.2], [0.9, 1.1]);
+    // Physics: high damping = less oscillation, low stiffness = "loose/heavy" feel
+    // const smoothedScroll = useSpring(smoothProgress, { mass: 0.5, stiffness: 50, damping: 20 }); // Removed redundant line
 
-    // Stage 2: "ELEVATE" (The splash/middle)
-    // Shifted earlier: 20% -> 35%
-    const opacityText2 = useTransform(scrollYProgress, [0.2, 0.25, 0.3, 0.35], [0, 1, 1, 0]);
-    const scaleText2 = useTransform(scrollYProgress, [0.2, 0.35], [0.9, 1.1]);
+    // Map SMOOTH scroll to frame index
+    const frameIndex = useTransform(smoothProgress, [0, 1], [0, totalFrames - 1]);
 
-    // Stage 3: "ZEUS" (Final product)
-    // Fades in MUCH earlier (35%) and STAYS visible for the majority of the scroll
-    const opacityText3 = useTransform(scrollYProgress, [0.35, 0.5, 1], [0, 1, 1]);
-    const scaleText3 = useTransform(scrollYProgress, [0.35, 1], [0.9, 1.05]);
+    // Text Animations - Retimed for "Immediate" ZEUS Impact
+    // Text Animations - The "Aggressive" Split (08/08/84)
+    // User wants Zeus EARLIER.
+
+    // Stage 1: "AWAKEN" (0% -> 8%)
+    const opacityText1 = useTransform(scrollYProgress, [0.0, 0.02, 0.06, 0.08], [0, 1, 1, 0]);
+    const scaleText1 = useTransform(scrollYProgress, [0.0, 0.08], [0.9, 1.05]);
+
+    // Stage 2: "ELEVATE" (8% -> 16%)
+    const opacityText2 = useTransform(scrollYProgress, [0.08, 0.10, 0.14, 0.16], [0, 1, 1, 0]);
+    const scaleText2 = useTransform(scrollYProgress, [0.08, 0.16], [0.9, 1.05]);
+
+    // Stage 3: "ZEUS" (16% -> End)
+    // Starts even earlier to give it maximum "pop" time
+    const opacityText3 = useTransform(scrollYProgress, [0.16, 0.25, 1], [0, 1, 1]);
+    const scaleText3 = useTransform(scrollYProgress, [0.16, 1], [0.95, 1.05]);
+
+    // Subtitle: "The Science..."
+    // Accelerate fade-in to feel "immediate" after ZEUS
+    const opacitySubtitle = useTransform(scrollYProgress, [0.18, 0.24, 1], [0, 1, 1]);
+    const scaleSubtitle = useTransform(scrollYProgress, [0.18, 1], [0.95, 1.05]);
 
     // Preload Images
     useEffect(() => {
@@ -125,6 +139,7 @@ export default function HeroCanvas() {
                 </motion.div>
 
                 {/* Stage 3 Text: ZEUS */}
+                {/* Stage 3 Text: ZEUS */}
                 <motion.div
                     style={{ opacity: opacityText3, scale: scaleText3 }}
                     className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10"
@@ -132,7 +147,14 @@ export default function HeroCanvas() {
                     <h1 className="text-[15vw] sm:text-[12rem] font-bold tracking-tighter-custom leading-none text-white mix-blend-overlay">
                         ZEUS.
                     </h1>
-                    <p className="mt-4 text-sm sm:text-lg tracking-[0.2em] text-white/50 uppercase font-medium">
+                </motion.div>
+
+                {/* Subtitle: The Science... */}
+                <motion.div
+                    style={{ opacity: opacitySubtitle, scale: scaleSubtitle }}
+                    className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 pt-[20vw] sm:pt-[16rem]"
+                >
+                    <p className="text-sm sm:text-lg tracking-[0.2em] text-white/80 uppercase font-medium">
                         The science of the perfect cold brew
                     </p>
                 </motion.div>

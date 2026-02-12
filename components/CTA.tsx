@@ -17,7 +17,7 @@ export default function CTA() {
                 </motion.h2>
 
                 <p className="text-espresso/60 text-lg md:text-xl font-mono mb-12 max-w-md mx-auto">
-                    Join the 1% who refuse to start their day with mediocrity.
+                    Experience the smoothest, most potent cold brew on Earth.
                 </p>
 
                 <motion.button
@@ -25,7 +25,7 @@ export default function CTA() {
                     whileTap={{ scale: 0.95 }}
                     className="bg-espresso text-white px-12 py-6 text-xl md:text-2xl font-bold tracking-wider uppercase hover:bg-condensation hover:text-espresso transition-colors duration-300 w-full md:w-auto shadow-2xl"
                 >
-                    START YOUR RITUAL - $29
+                    START — $29
                 </motion.button>
 
                 <div className="mt-16 flex space-x-8 text-espresso/60 text-xs font-mono uppercase">

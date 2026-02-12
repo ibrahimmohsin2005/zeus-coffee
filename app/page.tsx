@@ -6,7 +6,7 @@ import CTA from '@/components/CTA';
 import SocialProof from '@/components/SocialProof';
 import Header from '@/components/Header';
 import TheRitual from '@/components/TheRitual';
-import FAQ from '@/components/FAQ';
+import OurStory from '@/components/OurStory'; // New import
 import PricingSection from '@/components/PricingSection';
 
 // Dynamically import HeroCanvas to avoid SSR issues with Canvas/Windows
@@ -29,11 +29,15 @@ export default function Home() {
       */}
       <div className="relative z-10 bg-espresso-light">
         <Features />
+
+        {/* NEW: Brand Story Section */}
+        <OurStory />
+
         <TheRitual />
         <SocialProof />
         <PricingSection />
         <CTA />
-        <FAQ />
+        {/* FAQ Removed as requested */}
       </div>
 
       <footer className="bg-espresso py-6 text-center text-white/20 text-xs tracking-widest uppercase relative z-10 border-t border-white/5">

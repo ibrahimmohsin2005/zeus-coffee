@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 export default function HeroCanvas() {
     const containerRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const [images, setImages] = useState<HTMLImageElement[]>([]);
+    const imagesRef = useRef<(HTMLImageElement | null)[]>([]); // Changed to Ref
     const [isLoaded, setIsLoaded] = useState(false);
     const totalFrames = 240; // Updated to 240 frames
 
@@ -49,39 +49,55 @@ export default function HeroCanvas() {
     const opacitySubtitle = useTransform(scrollYProgress, [0.18, 0.24, 1], [0, 1, 1]);
     const scaleSubtitle = useTransform(scrollYProgress, [0.18, 1], [0.95, 1.05]);
 
-    // Preload Images
+    // Preload Images - Parallel & Non-Blocking
     useEffect(() => {
-        const loadedImages: HTMLImageElement[] = [];
+        // Initialize array with nulls
+        imagesRef.current = new Array(totalFrames).fill(null);
 
-        const loadImages = async () => {
-            for (let i = 1; i <= totalFrames; i++) {
-                const img = new Image();
-                // Filename format: ezgif-frame-001.jpg
-                const filename = `/sequence/ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
-                img.src = filename;
-                await new Promise<void>((resolve) => {
-                    img.onload = () => resolve();
-                    img.onerror = () => resolve(); // Skip errors
-                });
-                loadedImages.push(img);
-            }
-            setImages(loadedImages);
-            setIsLoaded(true);
+        const loadImage = (index: number) => {
+            const img = new Image();
+            // Filename format: ezgif-frame-001.jpg
+            const filename = `/sequence/ezgif-frame-${(index + 1).toString().padStart(3, '0')}.jpg`;
+            img.src = filename;
+            img.onload = () => {
+                imagesRef.current[index] = img;
+                // If the first frame is loaded, we can start showing something immediately
+                if (index === 0) setIsLoaded(true);
+            };
         };
 
-        loadImages();
+        // Fire off all requests in parallel
+        // The browser will handle the concurrency and queuing
+        for (let i = 0; i < totalFrames; i++) {
+            loadImage(i);
+        }
     }, [totalFrames]);
 
     // Render Canvas
     useEffect(() => {
-        if (!isLoaded || images.length === 0) return;
+        // We need at least the first frame or "isLoaded" to be true to start rendering loop
+        if (!isLoaded) return;
 
         const render = (index: number) => {
             const canvas = canvasRef.current;
             const ctx = canvas?.getContext('2d');
             if (!canvas || !ctx) return;
 
-            const img = images[index];
+            // Try to get the specific frame
+            let img = imagesRef.current[index];
+
+            // Fallback: If current frame isn't loaded, search backwards for the nearest loaded frame
+            // This prevents blinking/flashing while scrolling if the network is slightly behind
+            if (!img) {
+                for (let i = index - 1; i >= 0; i--) {
+                    if (imagesRef.current[i]) {
+                        img = imagesRef.current[i];
+                        break;
+                    }
+                }
+            }
+
+            // If we still don't have an image (e.g. frame 0 failed?), we can't draw anything yet
             if (!img) return;
 
             // Responsive "Contain" Logic
@@ -105,7 +121,7 @@ export default function HeroCanvas() {
         });
 
         return () => unsubscribe();
-    }, [isLoaded, images, frameIndex]);
+    }, [isLoaded, frameIndex]); // Removed 'images' dependency as it's now a ref
 
     return (
         <div ref={containerRef} className="relative h-[300vh] bg-espresso">
